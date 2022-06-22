@@ -1,31 +1,41 @@
 package com.cos.blog.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 
-
-@Entity //db 테이블화
+@Data
+@NoArgsConstructor//파라미터가 없는 기본생성자를 생성
+@AllArgsConstructor //모든 필드값을 파라미터로 받는 생성자를 만들어줌
+@Builder
+@Entity
 public class User {
 
-    @Id// 프라이머리 키
-    @GeneratedValue(strategy = GenerationType.IDENTITY)//프로젝트 연결된 db의 넘버링 전략으 따라간다.
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false, length = 20)
     private String username;
 
-    @Column(nullable = false,length = 100) //널이 될수 없다.
+
+    @Column(nullable = false, length = 255)
     private String password;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false)
     private String email;
 
-    @ColumnDefault("user")
-    private String role; //enum으로 도메인 설정을 할수 있다.
 
-    @CreationTimestamp// 시간이 자동입력
+    @CreationTimestamp
     private Timestamp createDate;
+
+    // Enum 으로 변경 예정
+    @ColumnDefault("'user'")
+    private String role;
 }
